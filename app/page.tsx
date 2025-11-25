@@ -2,7 +2,7 @@
 
 import React, { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "./firebaseConfig/page";
+import { auth } from "../app/firebaseConfig/firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,

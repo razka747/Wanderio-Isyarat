@@ -152,7 +152,7 @@ const recognizeGesture = (lm: any, mode: string) => {
     if (fist && lm[4].x > lm[12].x) return "M";
     if (fist && lm[4].x < lm[12].x && lm[4].y > lm[8].y) return "N";
     if (tIdx && tMid) return "O";
-    if (lm[8].y > lm[6].y && midUp && thumbExt) return "From";
+    if (lm[8].y > lm[6].y && midUp && thumbExt) return "P";
     if (lm[8].y > lm[5].y && lm[4].y > lm[3].y) return "Q";
     if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) < 0.035)
       return "R";
