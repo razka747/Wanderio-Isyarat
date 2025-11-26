@@ -10,7 +10,8 @@ const firebaseConfig = {
   projectId: "aplikasi-isyarat",
   storageBucket: "aplikasi-isyarat.firebasestorage.app",
   messagingSenderId: "592587180218",
-  appId: "1:592587180218:web:1df705af9842261587da83"
+  appId: "1:592587180218:web:1df705af9842261587da83",
+  databaseURL: "https://aplikasi-isyarat-default-rtdb.asia-southeast1.firebasedatabase.app",
 };
 
 // Inisialisasi Firebase jika belum ada

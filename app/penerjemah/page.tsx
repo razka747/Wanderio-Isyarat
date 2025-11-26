@@ -37,7 +37,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAyYsnXA4VV8zSfGO714d93out3yyTBXvI",
   authDomain: "aplikasi-isyarat.firebaseapp.com",
   databaseURL:
-    "https://aplikasi-isyarat-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    "https://aplikasi-isyarat-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "aplikasi-isyarat",
   storageBucket: "aplikasi-isyarat.firebasestorage.app",
   messagingSenderId: "592587180218",
@@ -223,7 +223,8 @@ const recognizeGesture = (lm: any, mode: string) => {
     if (fist && !thumbExt) return "S";
     if (fist && lm[4].x > lm[5].x && lm[4].x < lm[9].x) return "T";
     if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) < 0.04) return "U";
-    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.06) return "from ";
+    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.06)
+      return "from ";
     if (idxUp && midUp && ringUp && !pinkyUp) return "W";
     if (!midUp && !ringUp && !pinkyUp && lm[8].y > lm[7].y && lm[7].y < lm[6].y)
       return "X";
