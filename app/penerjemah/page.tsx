@@ -1,7 +1,8 @@
 // app/page.tsx
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+// UPDATE 1: Tambahkan usePathname
+import { useRouter, usePathname } from "next/navigation";
 import {
   Send,
   Copy,
@@ -17,6 +18,8 @@ import {
   Volume2,
   VolumeX,
   Loader2,
+  Home,
+  MessageSquare,
 } from "lucide-react";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
@@ -236,6 +239,8 @@ const recognizeGesture = (lm: any, mode: string) => {
 
 export default function SignLanguageChat() {
   const router = useRouter();
+  // UPDATE 2: Init pathname
+  const pathname = usePathname();
   const [roomCode, setRoomCode] = useState("");
   const [inputCode, setInputCode] = useState("");
   const [connected, setConnected] = useState(false);
@@ -560,12 +565,12 @@ export default function SignLanguageChat() {
     setAuthUser(null);
     router.push("/");
   };
-
-  // LOGIN SCREEN (UPDATED: Fixed Overflow/Offside Button)
+  // LOGIN SCREEN (Updated dengan Footer)
   if (!connected)
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 flex items-center justify-center text-white">
-        <div className="absolute top-6 left-6">
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4 flex items-center justify-center text-white relative">
+        {/* Tombol Kembali di Pojok Kiri Atas */}
+        <div className="absolute top-6 left-6 z-20">
           <button
             onClick={() => router.push("/memilih")}
             className="flex items-center gap-2 text-slate-400 hover:text-white"
@@ -573,7 +578,9 @@ export default function SignLanguageChat() {
             <ArrowLeft size={20} /> Kembali
           </button>
         </div>
-        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 lg:p-8 max-w-md w-full relative">
+
+        {/* Card Login */}
+        <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-6 lg:p-8 max-w-md w-full relative z-10 mb-20">
           {isAuthLoading && (
             <div className="absolute inset-0 bg-slate-900/80 rounded-3xl flex items-center justify-center z-10">
               <Loader2 size={48} className="animate-spin text-emerald-400" />
@@ -582,6 +589,9 @@ export default function SignLanguageChat() {
           <div className="text-center mb-8">
             <Hand className="w-16 h-16 mx-auto mb-4 text-emerald-400" />
             <h1 className="text-3xl font-bold mb-2">Login Chat</h1>
+            <p className="text-slate-400 text-sm">
+              Masuk untuk mulai mendeteksi bahasa isyarat
+            </p>
           </div>
           <div className="space-y-4">
             <input
@@ -589,23 +599,30 @@ export default function SignLanguageChat() {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Nama Anda"
               disabled={isAuthLoading}
-              className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-400 disabled:opacity-50"
+              className="w-full px-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-400 disabled:opacity-50 focus:outline-none focus:border-emerald-500 transition-colors"
             />
             <button
               onClick={createRoom}
               disabled={!username.trim() || isCreating || isAuthLoading}
-              className="w-full py-3 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl font-bold bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-emerald-900/20"
             >
               {isCreating && <Loader2 size={20} className="animate-spin" />}
               {isCreating ? "Membuat..." : "Buat Room Baru"}
             </button>
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-slate-600"></div>
+              <span className="flex-shrink mx-4 text-slate-500 text-xs">
+                ATAU GABUNG
+              </span>
+              <div className="flex-grow border-t border-slate-600"></div>
+            </div>
             <div className="flex gap-2 w-full">
               <input
                 value={inputCode}
                 onChange={(e) => setInputCode(e.target.value.toUpperCase())}
                 placeholder="Kode Room"
                 disabled={isAuthLoading}
-                className="flex-1 min-w-0 px-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-400 disabled:opacity-50"
+                className="flex-1 min-w-0 px-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-slate-400 disabled:opacity-50 focus:outline-none focus:border-blue-500 transition-colors"
               />
               <button
                 onClick={joinRoom}
@@ -615,7 +632,7 @@ export default function SignLanguageChat() {
                   isJoining ||
                   isAuthLoading
                 }
-                className="px-4 lg:px-6 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                className="px-4 lg:px-6 rounded-xl font-bold bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-blue-900/20"
               >
                 {isJoining ? (
                   <Loader2 size={20} className="animate-spin" />
@@ -626,6 +643,102 @@ export default function SignLanguageChat() {
             </div>
           </div>
         </div>
+
+        {/* MODERN INTERACTIVE FOOTER (FLOATING DOCK) - LOGIN PAGE */}
+        <div className="fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center">
+          <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-emerald-900/20 rounded-2xl p-2 flex items-center justify-between gap-1 sm:gap-4 max-w-sm w-full transition-all duration-300 hover:border-emerald-500/30">
+            {/* MENU: HOME */}
+            <button
+              onClick={() => router.push("/pembelajaran")}
+              className={`relative group flex-1 flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 ${
+                pathname === "/pembelajaran"
+                  ? "text-emerald-400 bg-white/5"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <div
+                className={`transition-transform duration-300 ${
+                  pathname === "/pembelajaran" ? "scale-110" : "group-hover:scale-110"
+                }`}
+              >
+                <Home size={24} strokeWidth={pathname === "/" ? 2.5 : 2} />
+              </div>
+              <span
+                className={`text-[10px] font-medium mt-1 transition-all duration-300 ${
+                  pathname === "/pembelajaran"
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-2 hidden group-hover:block group-hover:opacity-100 group-hover:translate-y-0"
+                }`}
+              >
+                Home
+              </span>
+              {/* Active Dot */}
+              {pathname === "/pembelajaran" && (
+                <span className="absolute bottom-1 w-1 h-1 bg-emerald-500 rounded-full shadow-[0_0_8px_2px_rgba(16,185,129,0.6)]"></span>
+              )}
+            </button>
+
+            {/* MENU: MARI BERKOMUNIKASI (Center Highlight) */}
+            <button
+              onClick={() => router.push("/penerjemah")}
+              className="relative -top-5 mx-2 group"
+            >
+              <div
+                className={`
+                w-14 h-14 rounded-full flex items-center justify-center border-4 border-slate-950 shadow-lg transition-all duration-300
+                ${
+                  pathname === "/penerjemah" || pathname?.includes("chat")
+                    ? "bg-gradient-to-tr from-emerald-600 to-emerald-400 text-white shadow-emerald-500/40 scale-110"
+                    : "bg-slate-800 text-slate-300 hover:bg-emerald-600 hover:text-white hover:scale-105"
+                }
+              `}
+              >
+                <MessageSquare
+                  size={24}
+                  fill={pathname === "/penerjemah" ? "currentColor" : "none"}
+                />
+              </div>
+              {/* Label Floating */}
+              <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max text-[10px] font-bold text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/90 px-2 py-0.5 rounded-full border border-white/10">
+                Mulai Chat
+              </span>
+            </button>
+
+            {/* MENU: AKUN */}
+            <button
+              onClick={() => router.push("/akun")}
+              className={`relative group flex-1 flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 ${
+                pathname === "/akun"
+                  ? "text-emerald-400 bg-white/5"
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <div
+                className={`transition-transform duration-300 ${
+                  pathname === "/akun" ? "scale-110" : "group-hover:scale-110"
+                }`}
+              >
+                <UserIcon
+                  size={24}
+                  strokeWidth={pathname === "/akun" ? 2.5 : 2}
+                />
+              </div>
+              <span
+                className={`text-[10px] font-medium mt-1 transition-all duration-300 ${
+                  pathname === "/akun"
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-2 hidden group-hover:block group-hover:opacity-100 group-hover:translate-y-0"
+                }`}
+              >
+                Akun
+              </span>
+              {/* Active Dot */}
+              {pathname === "/akun" && (
+                <span className="absolute bottom-1 w-1 h-1 bg-emerald-500 rounded-full shadow-[0_0_8px_2px_rgba(16,185,129,0.6)]"></span>
+              )}
+            </button>
+          </div>
+        </div>
       </div>
     );
 
@@ -633,7 +746,7 @@ export default function SignLanguageChat() {
   return (
     <div className="h-screen flex flex-col bg-slate-950 text-white overflow-hidden">
       {/* HEADER (Fixed) */}
-      <div className="flex-none z-50 bg-slate-900 border-b border-slate-800 shadow-lg p-3 lg:p-4 flex justify-between items-center">
+      <div className="flex-none z-40 bg-slate-900 border-b border-slate-800 shadow-lg p-3 lg:p-4 flex justify-between items-center">
         <button
           onClick={() => router.push("/memilih")}
           className="bg-slate-800/80 border border-slate-700 px-3 py-1.5 lg:px-4 lg:py-2 rounded-full flex items-center gap-2 text-xs lg:text-sm"
@@ -653,9 +766,9 @@ export default function SignLanguageChat() {
       </div>
 
       {/* CONTENT AREA */}
-      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl mx-auto w-full p-2 gap-2 lg:p-4 lg:gap-4">
+      {/* UPDATE 3: Added mb-24 to prevent footer overlap */}
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden max-w-7xl mx-auto w-full p-2 gap-2 lg:p-4 lg:gap-4 mb-24">
         {/* LEFT COLUMN: CAMERA */}
-        {/* Mobile: Fixed Height (~220px) to save space. Desktop: 1/3 width, full height */}
         <div className="flex-none h-[220px] lg:h-auto lg:w-1/3 bg-slate-900 rounded-2xl lg:rounded-3xl border border-slate-800 flex flex-col overflow-hidden">
           <div className="p-2 lg:p-3 bg-slate-800 border-b border-slate-700">
             <div className="flex justify-between items-center mb-1 lg:mb-2">
@@ -766,7 +879,6 @@ export default function SignLanguageChat() {
         </div>
 
         {/* RIGHT COLUMN: CHAT */}
-        {/* Flex-1 ensures it takes all remaining height */}
         <div className="flex-1 bg-slate-900 rounded-2xl lg:rounded-3xl border border-slate-800 flex flex-col overflow-hidden relative">
           {/* HEADER */}
           <div className="flex-none p-2 lg:p-3 bg-slate-800 border-b border-slate-700 flex justify-between items-center shadow-sm z-10">
@@ -859,9 +971,6 @@ export default function SignLanguageChat() {
                       className="mt-2 text-[9px] lg:text-[10px] px-2 py-1 rounded-full bg-black/10 hover:bg-black/20 transition-colors flex items-center gap-1 ml-auto"
                     >
                       <Hand size={10} />
-                      {selectedMessageForTranslate === m.id
-                        ? "Tutup"
-                        : "Translate"}
                     </button>
                   </div>
                 </div>
@@ -918,6 +1027,102 @@ export default function SignLanguageChat() {
               <Send size={16} className="lg:w-[18px] lg:h-[18px]" />
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* MODERN INTERACTIVE FOOTER (FLOATING DOCK) */}
+      <div className="fixed bottom-6 left-0 right-0 z-50 px-4 flex justify-center">
+        <div className="bg-slate-900/80 backdrop-blur-xl border border-white/10 shadow-2xl shadow-emerald-900/20 rounded-2xl p-2 flex items-center justify-between gap-1 sm:gap-4 max-w-sm w-full transition-all duration-300 hover:border-emerald-500/30">
+          {/* MENU: HOME */}
+          <button
+            onClick={() => router.push("/")}
+            className={`relative group flex-1 flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 ${
+              pathname === "/"
+                ? "text-emerald-400 bg-white/5"
+                : "text-slate-400 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <div
+              className={`transition-transform duration-300 ${
+                pathname === "/" ? "scale-110" : "group-hover:scale-110"
+              }`}
+            >
+              <Home size={24} strokeWidth={pathname === "/" ? 2.5 : 2} />
+            </div>
+            <span
+              className={`text-[10px] font-medium mt-1 transition-all duration-300 ${
+                pathname === "/"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-2 hidden group-hover:block group-hover:opacity-100 group-hover:translate-y-0"
+              }`}
+            >
+              Home
+            </span>
+            {/* Active Dot */}
+            {pathname === "/" && (
+              <span className="absolute bottom-1 w-1 h-1 bg-emerald-500 rounded-full shadow-[0_0_8px_2px_rgba(16,185,129,0.6)]"></span>
+            )}
+          </button>
+
+          {/* MENU: MARI BERKOMUNIKASI (Center Highlight) */}
+          <button
+            onClick={() => router.push("/penerjemah")}
+            className="relative -top-5 mx-2 group"
+          >
+            <div
+              className={`
+              w-14 h-14 rounded-full flex items-center justify-center border-4 border-slate-950 shadow-lg transition-all duration-300
+              ${
+                pathname === "/penerjemah" || pathname?.includes("chat")
+                  ? "bg-gradient-to-tr from-emerald-600 to-emerald-400 text-white shadow-emerald-500/40 scale-110"
+                  : "bg-slate-800 text-slate-300 hover:bg-emerald-600 hover:text-white hover:scale-105"
+              }
+            `}
+            >
+              <MessageSquare
+                size={24}
+                fill={pathname === "/penerjemah" ? "currentColor" : "none"}
+              />
+            </div>
+            {/* Label Floating */}
+            <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max text-[10px] font-bold text-emerald-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/90 px-2 py-0.5 rounded-full border border-white/10">
+              Mulai Chat
+            </span>
+          </button>
+
+          {/* MENU: AKUN */}
+          <button
+            onClick={() => router.push("/akun")}
+            className={`relative group flex-1 flex flex-col items-center justify-center p-2 rounded-xl transition-all duration-300 ${
+              pathname === "/akun"
+                ? "text-emerald-400 bg-white/5"
+                : "text-slate-400 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            <div
+              className={`transition-transform duration-300 ${
+                pathname === "/akun" ? "scale-110" : "group-hover:scale-110"
+              }`}
+            >
+              <UserIcon
+                size={24}
+                strokeWidth={pathname === "/akun" ? 2.5 : 2}
+              />
+            </div>
+            <span
+              className={`text-[10px] font-medium mt-1 transition-all duration-300 ${
+                pathname === "/akun"
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-2 hidden group-hover:block group-hover:opacity-100 group-hover:translate-y-0"
+              }`}
+            >
+              Akun
+            </span>
+            {/* Active Dot */}
+            {pathname === "/akun" && (
+              <span className="absolute bottom-1 w-1 h-1 bg-emerald-500 rounded-full shadow-[0_0_8px_2px_rgba(16,185,129,0.6)]"></span>
+            )}
+          </button>
         </div>
       </div>
     </div>
