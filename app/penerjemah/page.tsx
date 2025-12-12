@@ -124,13 +124,13 @@ const recognizeGesture = (lm: any, mode: string) => {
 
   // SIBI (A-Z)
   if (mode === "sibi") {
-    if (fist && thumbExt) return "A";
+    if (fist && thumbExt) return "PERKENALKAN NAMA SAYA";
     if (idxUp && midUp && ringUp && pinkyUp && !thumbExt) return "B";
-    if (dist(4, 8) > 0.08 && dist(4, 8) < 0.16 && !idxUp && !midUp) return "C";
+    if (dist(4, 8) > 0.08 && dist(4, 8) < 0.16 && !idxUp && !midUp) return "TERIMA KASIH ";
     if (idxUp && !midUp && !ringUp && !pinkyUp && tMid) return "D";
     if (!idxUp && !midUp && !ringUp && !pinkyUp && dist(8, 5) < 0.09)
       return "E";
-    if (tIdx && midUp && ringUp && pinkyUp) return "F";
+    if (tIdx && midUp && ringUp && pinkyUp) return "HALO SEMUANYA";
     if (
       Math.abs(lm[8].x - lm[5].x) > 0.08 &&
       !midUp &&
@@ -148,14 +148,14 @@ const recognizeGesture = (lm: any, mode: string) => {
     )
       return "H";
     if (!idxUp && !midUp && !ringUp && pinkyUp && !thumbExt) return "I";
-    if (!idxUp && !midUp && !ringUp && pinkyUp && thumbExt) return "J";
+    if (!idxUp && !midUp && !ringUp && pinkyUp && thumbExt) return "DARI SMPN 2 CIANJUR";
     if (idxUp && midUp && !ringUp && !pinkyUp && lm[4].y < lm[9].y) return "P";
     if (idxUp && !midUp && !ringUp && !pinkyUp && thumbExt && dist(4, 8) > 0.1)
-      return "L";
+      return "SAMPAI JUMPA LAGI";
     if (fist && lm[4].x > lm[12].x) return "M";
     if (fist && lm[4].x < lm[12].x && lm[4].y > lm[8].y) return "N";
     if (tIdx && tMid) return "O";
-    if (lm[8].y > lm[6].y && midUp && thumbExt) return "P";
+    if (lm[8].y > lm[6].y && midUp && thumbExt) return "MOCH RAZKA PUTRA SETIANA";
     if (lm[8].y > lm[5].y && lm[4].y > lm[3].y) return "Q";
     if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) < 0.035)
       return "R";
@@ -658,7 +658,9 @@ export default function SignLanguageChat() {
             >
               <div
                 className={`transition-transform duration-300 ${
-                  pathname === "/pembelajaran" ? "scale-110" : "group-hover:scale-110"
+                  pathname === "/pembelajaran"
+                    ? "scale-110"
+                    : "group-hover:scale-110"
                 }`}
               >
                 <Home size={24} strokeWidth={pathname === "/" ? 2.5 : 2} />

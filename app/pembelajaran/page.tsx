@@ -460,12 +460,12 @@ const SignLanguageApp = () => {
   // Home Screen
   if (screen === "home") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-4 pb-28 relative">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-900 text-white p-4 pb-28 relative">
         {renderHeader()} {/* HEADER ADDED */}
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 pt-8">
-            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              🤟 Belajar Bahasa Isyarat
+            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r bg-slate-800 bg-clip-text text-sky-200">
+              Belajar Bahasa Isyarat
             </h1>
             <p className="text-gray-400 text-xl">
               Pilih metode belajar yang sesuai dengan gaya Anda
@@ -483,7 +483,7 @@ const SignLanguageApp = () => {
                   onClick={() => setCurrentCategory(cat)}
                   className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 ${
                     currentCategory === cat
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 shadow-lg shadow-purple-500/50 scale-105"
+                      ? "bg-gradient-to-r shadow-lg shadow-purple-500/50 scale-105"
                       : "bg-gray-800/50 hover:bg-gray-700/50 border border-gray-700"
                   }`}
                 >
@@ -586,7 +586,7 @@ const SignLanguageApp = () => {
   // Learning Mode
   if (screen === "learning") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-4 pb-28 relative">
+      <div className="min-h-screen bg-gradient-to-br bg-blue-500/20 text-white p-4 pb-28 relative">
         {renderHeader()} {/* HEADER ADDED */}
         <div className="max-w-4xl mx-auto">
           <button
@@ -747,7 +747,7 @@ const SignLanguageApp = () => {
   // Quiz Mode
   if (screen === "quiz") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-4 pb-28 relative">
+      <div className="min-h-screen bg-gradient-to-br bg-teal-950 text-white p-4 pb-28 relative">
         {renderHeader()} {/* HEADER ADDED */}
         <div className="max-w-4xl mx-auto">
           <button
@@ -833,7 +833,7 @@ const SignLanguageApp = () => {
   // Game Mode
   if (screen === "game") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-4 pb-28 relative">
+      <div className="min-h-screen bg-gradient-to-br bg-slate-800 text-white p-4 pb-28 relative">
         {renderHeader()} {/* HEADER ADDED */}
         <div className="max-w-4xl mx-auto">
           <button
