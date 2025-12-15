@@ -122,15 +122,15 @@ const recognizeGesture = (lm: any, mode: string) => {
   const tIdx = dist(4, 8) < 0.06;
   const tMid = dist(4, 12) < 0.06;
 
-  // SIBI (A-Z)
+  // SIBI
   if (mode === "sibi") {
-    if (fist && thumbExt) return "PERKENALKAN NAMA SAYA";
+    if (fist && thumbExt) return "PERKENALKAN NAMA SAYA ";
     if (idxUp && midUp && ringUp && pinkyUp && !thumbExt) return "B";
     if (dist(4, 8) > 0.08 && dist(4, 8) < 0.16 && !idxUp && !midUp) return "MOCH RAZKA PUTRA SETIANA ";
     if (idxUp && !midUp && !ringUp && !pinkyUp && tMid) return "D";
     if (!idxUp && !midUp && !ringUp && !pinkyUp && dist(8, 5) < 0.09)
       return "E";
-    if (tIdx && midUp && ringUp && pinkyUp) return "HALO SEMUANYA";
+    if (tIdx && midUp && ringUp && pinkyUp) return "HALO SEMUANYA ";
     if (
       Math.abs(lm[8].x - lm[5].x) > 0.08 &&
       !midUp &&
@@ -170,7 +170,7 @@ const recognizeGesture = (lm: any, mode: string) => {
       dist(8, 12) < 0.04
     )
       return "U";
-    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.05) return "DARI SMP NEGERI 2 CIANJUR";
+    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.05) return "DARI SMP NEGERI 2 CIANJUR ";
     if (idxUp && midUp && ringUp && !pinkyUp && !thumbExt) return "W";
     if (!midUp && !ringUp && !pinkyUp && lm[8].y > lm[7].y && lm[7].y < lm[6].y)
       return "X";
