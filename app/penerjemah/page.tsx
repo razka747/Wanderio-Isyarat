@@ -148,8 +148,8 @@ const recognizeGesture = (lm: any, mode: string) => {
     )
       return "H";
     if (!idxUp && !midUp && !ringUp && pinkyUp && !thumbExt) return "I";
-    if (!idxUp && !midUp && !ringUp && pinkyUp && thumbExt) return "DARI SMPN 2 CIANJUR";
-    if (idxUp && midUp && !ringUp && !pinkyUp && lm[4].y < lm[9].y) return "k";
+    if (!idxUp && !midUp && !ringUp && pinkyUp && thumbExt) return "J";
+    if (idxUp && midUp && !ringUp && !pinkyUp && lm[4].y < lm[9].y) return "K";
     if (idxUp && !midUp && !ringUp && !pinkyUp && thumbExt && dist(4, 8) > 0.1)
       return "SAMPAI JUMPA LAGI";
     if (fist && lm[4].x > lm[12].x) return "M";
@@ -170,7 +170,7 @@ const recognizeGesture = (lm: any, mode: string) => {
       dist(8, 12) < 0.04
     )
       return "U";
-    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.05) return "V";
+    if (idxUp && midUp && !ringUp && !pinkyUp && dist(8, 12) > 0.05) return "DARI SMP NEGERI 2 CIANJUR";
     if (idxUp && midUp && ringUp && !pinkyUp && !thumbExt) return "W";
     if (!midUp && !ringUp && !pinkyUp && lm[8].y > lm[7].y && lm[7].y < lm[6].y)
       return "X";
